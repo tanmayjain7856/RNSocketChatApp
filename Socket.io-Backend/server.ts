@@ -5,13 +5,16 @@ const io = new Server({});
 
 let currentUserId = 2;
 
-const userIds: any = {};
+const users: any = {};
 
 io.on("connection", (socket) => {
   console.log("User Connected!");
   console.log(socket.id);
-  userIds[socket.id] = currentUserId++;
-  handleMessage(socket, userIds);
+  users[socket.id] = { userId: currentUserId++ };
+  socket.on("join", (username) => {
+    users[socket.id].username = username;
+  });
+  handleMessage(socket, users);
 });
 
 io.listen(3002);
