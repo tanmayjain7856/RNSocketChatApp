@@ -5,11 +5,15 @@ import styles from '../../styles/style';
 
 export default function ChatScreen() {
   const [messageToSend, setMessageToSend] = useState('');
+  const [recvMessagesFromServer, setRecvMessagesFromServer] = useState<any>([]);
 
   const socket = useRef<any>(null);
 
   useEffect(() => {
     socket.current = io('http://192.168.1.4:3002');
+    socket.current.on('message', (message: any) => {
+      setRecvMessagesFromServer((prevState: any) => [...prevState, message]);
+    });
   }, []);
 
   function sendMessageToServer() {
@@ -17,9 +21,15 @@ export default function ChatScreen() {
     setMessageToSend('');
   }
 
+  const displayChatMessages = recvMessagesFromServer.map((msg: any) => (
+    <Text style={styles.textStyle} key={msg}>
+      {msg}
+    </Text>
+  ));
+
   return (
     <View style={styles.container}>
-      <Text style={styles.textStyle}>Hello React Native!</Text>
+      {displayChatMessages}
       <TextInput
         value={messageToSend}
         placeholder="Enter chat message..."
