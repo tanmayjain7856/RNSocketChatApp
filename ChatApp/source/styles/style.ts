@@ -7,13 +7,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FFF',
   },
-  textStyle: {
-    color: '#000',
-    fontSize: 16,
-    fontWeight: '700',
-  },
+  inputContainerStyle: {flex: 1, justifyContent: 'space-around'},
   textInputStyle: {
     color: '#000',
+    fontSize: 30,
+    textAlign: 'center',
+  },
+  imageStyle: {
+    flex: 1,
   },
 });
 

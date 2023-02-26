@@ -13,8 +13,8 @@ io.on("connection", (socket) => {
   users[socket.id] = { userId: currentUserId++ };
   socket.on("join", (username) => {
     users[socket.id].username = username;
+    handleMessage(socket, users);
   });
-  handleMessage(socket, users);
 });
 
 io.listen(3002);

@@ -1,9 +1,11 @@
 import React, {useEffect, useState, useRef} from 'react';
+import JoinScreen from '../JoinScreen/JoinScreen';
 import {GiftedChat, IMessage} from 'react-native-gifted-chat';
 import io from 'socket.io-client';
 
 export default function ChatScreen() {
   const [recvMessagesFromServer, setRecvMessagesFromServer] = useState<any>([]);
+  const [isJoined, setIsJoined] = useState(false);
 
   const socket = useRef<any>(null);
 
@@ -24,10 +26,16 @@ export default function ChatScreen() {
   }
 
   return (
-    <GiftedChat
-      messages={recvMessagesFromServer}
-      user={{_id: 1}}
-      onSend={messages => sendMessageToServer(messages)}
-    />
+    <>
+      {isJoined ? (
+        <GiftedChat
+          messages={recvMessagesFromServer}
+          user={{_id: 1}}
+          onSend={messages => sendMessageToServer(messages)}
+        />
+      ) : (
+        <JoinScreen />
+      )}
+    </>
   );
 }
