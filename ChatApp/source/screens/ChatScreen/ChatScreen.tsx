@@ -1,10 +1,9 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {View, Text, TextInput} from 'react-native';
+import {GiftedChat} from 'react-native-gifted-chat';
 import io from 'socket.io-client';
-import styles from '../../styles/style';
 
 export default function ChatScreen() {
-  const [messageToSend, setMessageToSend] = useState('');
+  // const [messageToSend, setMessageToSend] = useState('');
   const [recvMessagesFromServer, setRecvMessagesFromServer] = useState<any>([]);
 
   const socket = useRef<any>(null);
@@ -14,30 +13,24 @@ export default function ChatScreen() {
     socket.current.on('message', (message: any) => {
       setRecvMessagesFromServer((prevState: any) => [...prevState, message]);
     });
+    setRecvMessagesFromServer([
+      {
+        _id: 1,
+        text: 'Hello Developer',
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: 'React Native',
+          avatar: 'https://placeimg.com/140/140/any',
+        },
+      },
+    ]);
   }, []);
 
-  function sendMessageToServer() {
-    socket.current.emit('message', messageToSend);
-    setMessageToSend('');
-  }
+  // function sendMessageToServer() {
+  //   socket.current.emit('message', messageToSend);
+  //   setMessageToSend('');
+  // }
 
-  const displayChatMessages = recvMessagesFromServer.map((msg: any) => (
-    <Text style={styles.textStyle} key={msg}>
-      {msg}
-    </Text>
-  ));
-
-  return (
-    <View style={styles.container}>
-      {displayChatMessages}
-      <TextInput
-        value={messageToSend}
-        placeholder="Enter chat message..."
-        placeholderTextColor="#999"
-        onChangeText={(text: any) => setMessageToSend(text)}
-        style={styles.textInputStyle}
-        onSubmitEditing={sendMessageToServer}
-      />
-    </View>
-  );
+  return <GiftedChat messages={recvMessagesFromServer} user={{_id: 1}} />;
 }
