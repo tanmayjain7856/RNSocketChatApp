@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {View, Text, TextInput} from 'react-native';
 import io from 'socket.io-client';
 import styles from '../../styles/style';
@@ -6,9 +6,16 @@ import styles from '../../styles/style';
 export default function ChatScreen() {
   const [messageToSend, setMessageToSend] = useState('');
 
+  const socket = useRef<any>(null);
+
   useEffect(() => {
-    io('http://192.168.1.4:3002');
+    socket.current = io('http://192.168.1.4:3002');
   }, []);
+
+  function sendMessageToServer() {
+    socket.current.emit('message', messageToSend);
+    setMessageToSend('');
+  }
 
   return (
     <View style={styles.container}>
@@ -19,6 +26,7 @@ export default function ChatScreen() {
         placeholderTextColor="#999"
         onChangeText={(text: any) => setMessageToSend(text)}
         style={styles.textInputStyle}
+        onSubmitEditing={sendMessageToServer}
       />
     </View>
   );
