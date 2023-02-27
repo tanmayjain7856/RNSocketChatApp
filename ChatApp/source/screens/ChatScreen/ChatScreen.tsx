@@ -4,7 +4,6 @@ import io from 'socket.io-client';
 
 export default function ChatScreen() {
   const [recvMessagesFromServer, setRecvMessagesFromServer] = useState<any>([]);
-  // const [isJoined, setIsJoined] = useState(false);
 
   const socket = useRef<any>(null);
 
@@ -23,11 +22,6 @@ export default function ChatScreen() {
       GiftedChat.append(prevState, messages),
     );
   }
-
-  // const joinChat = (username: any) => {
-  //   socket.current.emit('join', username);
-  //   setIsJoined(true);
-  // };
 
   return (
     <GiftedChat
