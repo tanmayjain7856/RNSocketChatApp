@@ -1,11 +1,10 @@
 import React, {useEffect, useState, useRef} from 'react';
-import JoinScreen from '../JoinScreen/JoinScreen';
 import {GiftedChat, IMessage} from 'react-native-gifted-chat';
 import io from 'socket.io-client';
 
 export default function ChatScreen() {
   const [recvMessagesFromServer, setRecvMessagesFromServer] = useState<any>([]);
-  const [isJoined, setIsJoined] = useState(false);
+  // const [isJoined, setIsJoined] = useState(false);
 
   const socket = useRef<any>(null);
 
@@ -25,23 +24,17 @@ export default function ChatScreen() {
     );
   }
 
-  const joinChat = (username: any) => {
-    socket.current.emit('join', username);
-    setIsJoined(true);
-  };
+  // const joinChat = (username: any) => {
+  //   socket.current.emit('join', username);
+  //   setIsJoined(true);
+  // };
 
   return (
-    <>
-      {isJoined ? (
-        <GiftedChat
-          renderUsernameOnMessage
-          messages={recvMessagesFromServer}
-          user={{_id: 1}}
-          onSend={messages => sendMessageToServer(messages)}
-        />
-      ) : (
-        <JoinScreen joinChat={joinChat} />
-      )}
-    </>
+    <GiftedChat
+      renderUsernameOnMessage
+      messages={recvMessagesFromServer}
+      user={{_id: 1}}
+      onSend={messages => sendMessageToServer(messages)}
+    />
   );
 }

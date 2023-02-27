@@ -1,6 +1,6 @@
 import React from 'react';
-import ChatScreen from './source/screens/ChatScreen/ChatScreen';
+import RootNavigator from './source/navigations/RootNavigator';
 
 export default function App() {
-  return <ChatScreen />;
+  return <RootNavigator />;
 }
