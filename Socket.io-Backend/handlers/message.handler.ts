@@ -8,7 +8,7 @@ function createMessage(user: any, textMessage: any) {
     user: {
       _id: user.userId,
       name: user.username,
-      avatar: "https://placeimg.com/140/140/any",
+      avatar: user.avatar,
     },
   };
 }
