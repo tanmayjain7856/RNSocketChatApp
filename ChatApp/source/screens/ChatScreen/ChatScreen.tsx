@@ -10,7 +10,7 @@ export default function ChatScreen() {
   const socket = useRef<any>(null);
 
   useEffect(() => {
-    socket.current = io('http://192.168.1.4:3002');
+    socket.current = io('http://192.168.0.113:3002');
     socket.current.on('message', (message: any) => {
       setRecvMessagesFromServer((prevState: any) =>
         GiftedChat.append(prevState, message),
@@ -25,16 +25,22 @@ export default function ChatScreen() {
     );
   }
 
+  const joinChat = (username: any) => {
+    socket.current.emit('join', username);
+    setIsJoined(true);
+  };
+
   return (
     <>
       {isJoined ? (
         <GiftedChat
+          renderUsernameOnMessage
           messages={recvMessagesFromServer}
           user={{_id: 1}}
           onSend={messages => sendMessageToServer(messages)}
         />
       ) : (
-        <JoinScreen />
+        <JoinScreen joinChat={joinChat} />
       )}
     </>
   );
