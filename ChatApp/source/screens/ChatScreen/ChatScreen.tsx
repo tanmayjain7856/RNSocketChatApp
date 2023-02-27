@@ -9,7 +9,7 @@ export default function ChatScreen() {
   const socket = useRef<any>(null);
 
   useEffect(() => {
-    socket.current = io('http://192.168.0.113:3002');
+    socket.current = io('http://192.168.0.130:3002');
     socket.current.on('message', (message: any) => {
       setRecvMessagesFromServer((prevState: any) =>
         GiftedChat.append(prevState, message),
