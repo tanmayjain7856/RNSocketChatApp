@@ -3,7 +3,7 @@ import {View, FlatList, Text, Image, TouchableOpacity} from 'react-native';
 import styles from '../../styles/style';
 import {useSelector} from 'react-redux';
 
-export default function FriendListScreen() {
+export default function FriendListScreen({navigation}: any) {
   const usersOnline = useSelector((state: any) => state.usersOnline);
 
   return (
@@ -12,7 +12,7 @@ export default function FriendListScreen() {
         data={usersOnline}
         renderItem={({item}) => {
           return (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('ChatScreen')}>
               <View style={styles.userListItemContainer}>
                 <Image
                   source={{uri: item.avatar}}
