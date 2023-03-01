@@ -32,6 +32,14 @@ io.on("connection", (socket) => {
         console.log("Got join event", action.data);
         users[socket.id].username = action.data;
         users[socket.id].avatar = createUserAvatarUrl();
+        const values = Object.values(users);
+        const onlyWithUserNames = values.filter(
+          (user: any) => user.username !== undefined
+        );
+        io.emit("action", {
+          type: "users_online",
+          data: onlyWithUserNames,
+        });
         break;
     }
   });
