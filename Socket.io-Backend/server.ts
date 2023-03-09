@@ -53,6 +53,15 @@ io.on("connection", (socket) => {
           data: createUsersOnline(),
         });
         break;
+      case "server/private-message":
+        console.log("Got a private message", action.data);
+        // users[socket.id].username = action.data;
+        // users[socket.id].avatar = createUserAvatarUrl();
+        // io.emit("action", {
+        //   type: "users_online",
+        //   data: createUsersOnline(),
+        // });
+        break;
     }
   });
 });

@@ -12,7 +12,10 @@ export default function FriendListScreen({navigation}: any) {
         data={usersOnline}
         renderItem={({item}) => {
           return (
-            <TouchableOpacity onPress={() => navigation.navigate('ChatScreen')}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('ChatScreen', {userId: item.userId})
+              }>
               <View style={styles.userListItemContainer}>
                 <Image
                   source={{uri: item.avatar}}
