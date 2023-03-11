@@ -47,7 +47,7 @@ io.on("connection", (socket) => {
         for (let i = 0; i < userValues.length; i++) {
           if (userValues[i].userId === conversationId) {
             const socketId = socketIds[i];
-            io.sockets.sockets[socketId].emit("action", {
+            io.sockets.to(socketId).emit("action", {
               type: "private_message",
               data: { ...action.data, conversationId: from },
             });
