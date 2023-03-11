@@ -5,18 +5,24 @@ import {useDispatch, useSelector} from 'react-redux';
 export default function ChatScreen({route}: any) {
   const dispatch: any = useDispatch();
   const selfUser = useSelector((state: any) => state.selfUser);
+  const conversations = useSelector((state: any) => state.conversations);
+  const messages = conversations[route.params.userId].messages;
 
   return (
     <GiftedChat
       renderUsernameOnMessage
-      messages={[]}
+      messages={messages}
       user={{_id: selfUser.userId}}
-      onSend={(messages: any) =>
+      onSend={(message: any) => {
         dispatch({
-          type: 'server/private-message',
-          data: {text: messages[0].text, to: route.params.userId},
-        })
-      }
+          type: 'private_message',
+          data: {message: message[0], conversationId: route.params.userId},
+        });
+        dispatch({
+          type: 'server/private_message',
+          data: {message: message[0], conversationId: route.params.userId},
+        });
+      }}
     />
   );
 }
