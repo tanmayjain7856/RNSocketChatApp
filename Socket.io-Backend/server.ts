@@ -1,12 +1,9 @@
 import { Server } from "socket.io";
-import handleMessage from "./handlers/message.handler";
 import { v4 as uuidv4 } from "uuid";
 
 const io = new Server({});
 
 const users: any = {};
-
-console.log(uuidv4());
 
 function createUserAvatarUrl() {
   const rand1 = Math.round(Math.random() * 200 + 100);
@@ -23,8 +20,6 @@ function createUsersOnline() {
 }
 
 io.on("connection", (socket) => {
-  console.log("User Connected!");
-  console.log(socket.id);
   users[socket.id] = { userId: uuidv4() };
   socket.on("disconnect", () => {
     delete users[socket.id];
@@ -36,7 +31,6 @@ io.on("connection", (socket) => {
   socket.on("action", (action) => {
     switch (action.type) {
       case "server/join":
-        console.log("Got join event", action.data);
         users[socket.id].username = action.data;
         users[socket.id].avatar = createUserAvatarUrl();
         io.emit("action", {
@@ -46,10 +40,10 @@ io.on("connection", (socket) => {
         socket.emit("action", { type: "self_user", data: users[socket.id] });
         break;
       case "server/private_message":
-        const conversationId = action.data.conversationId;
-        const from = users[socket.id].userId;
+        const conversationId: any = action.data.conversationId;
+        const from: any = users[socket.id].userId;
         const userValues: any = Object.values(users);
-        const socketIds = Object.keys(users);
+        const socketIds: any = Object.keys(users);
         for (let i = 0; i < userValues.length; i++) {
           if (userValues[i].userId === conversationId) {
             const socketId = socketIds[i];
@@ -65,4 +59,4 @@ io.on("connection", (socket) => {
   });
 });
 
-io.listen(3000);
+io.listen(3001);

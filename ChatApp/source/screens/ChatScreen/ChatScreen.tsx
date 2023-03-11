@@ -6,7 +6,8 @@ export default function ChatScreen({route}: any) {
   const dispatch: any = useDispatch();
   const selfUser = useSelector((state: any) => state.selfUser);
   const conversations = useSelector((state: any) => state.conversations);
-  const messages = conversations[route.params.userId].messages;
+  const userId = route.params.userId;
+  const messages = conversations[userId].messages;
 
   return (
     <GiftedChat
@@ -16,11 +17,11 @@ export default function ChatScreen({route}: any) {
       onSend={(message: any) => {
         dispatch({
           type: 'private_message',
-          data: {message: message[0], conversationId: route.params.userId},
+          data: {message: message[0], conversationId: userId},
         });
         dispatch({
           type: 'server/private_message',
-          data: {message: message[0], conversationId: route.params.userId},
+          data: {message: message[0], conversationId: userId},
         });
       }}
     />
