@@ -1,15 +1,16 @@
 import React from 'react';
 import {GiftedChat} from 'react-native-gifted-chat';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 export default function ChatScreen({route}: any) {
   const dispatch: any = useDispatch();
+  const selfUser = useSelector((state: any) => state.selfUser);
 
   return (
     <GiftedChat
       renderUsernameOnMessage
       messages={[]}
-      user={{_id: 1}}
+      user={{_id: selfUser.userId}}
       onSend={(messages: any) =>
         dispatch({
           type: 'server/private-message',
